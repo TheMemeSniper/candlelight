@@ -8,9 +8,14 @@ CSS Stylesheet
 #error2{
     color:crimson;
     align: center middle;
+    text-align: center;
 }
 
 #title,
 #title2 {
     text-style: bold;
+}
+
+#loginlist {
+    padding-bottom: 10;
 }

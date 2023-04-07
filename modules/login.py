@@ -20,7 +20,7 @@ class LabelItem(ListItem): # For some inconcievable reason, Textual
         yield Label(self.label)
 
 def getprexistinglogins(): # List everything in /user/creds and
-    loginlist = ListView() # return a ListView with the links if there's anything there
+    loginlist = ListView(id="loginlist") # return a ListView with the links if there's anything there
     for file in os.listdir(f"{SCRDIR}/../user/creds/"):
         loginlist.append(LabelItem(f"https://{file}.instructure.com"))
     if not loginlist:
@@ -30,13 +30,19 @@ def getprexistinglogins(): # List everything in /user/creds and
 
 
 class LoginChooser(App):
+    """
+    Prompt user to pick a login from 
+    /user/creds/
+    """
     CSS_PATH = f"{SCRDIR}/../assets/style.css"
 
     def compose(self) -> ComposeResult:
         yield Header()
         yield Label("Stored logins //", id="title")
         if not (getprexistinglogins() == None): # If some logins already exist, display them
-            yield getprexistinglogins()
+            yield Container(
+                    getprexistinglogins()
+                    )
         else:
             yield Container(
                 Label("No logins found!"), # If not, display an error
@@ -55,23 +61,46 @@ class LoginChooser(App):
         yield Footer()
 
     def on_list_view_selected(self, event: ListView.Selected):
-        self.exit(event.item.label.split("https://")[1].split(".instructure.com")[0]) # reaaaallly bad way of returning the filenaem
+        self.exit(event.item.label.split("https://")[1].split(".instructure.com")[0]) # reaaaallly bad way of returning the filename
                                                                                       # so programming this is easier
 
     def on_button_pressed(self, event: Button.Pressed):
         urlinput = self.query_one("#url",Input).value
         tokeninput = self.query_one("#token",Input).value
         errorlabel = self.query_one("#error2",Label)
-        if (urlinput or tokeninput == ""): # input validation
-            errorlabel.update("Empty input")
+        urlname = urlinput.split("https://")[1].split(".instructure.com")[0]
+        if (urlinput == "" or tokeninput == ""): # input validation
+            errorlabel.update(f"{urlinput} {tokeninput}")
             return
-        if ("https://" and ".instructure.com" not in urlinput):
+        if ("https://" not in urlinput and ".instructure.com" not in urlinput):
             errorlabel.update("Not a valid URL")
             return
-        urlname = urlinput.split("https://")[1].split(".instructure.com")[0]
+        if ("." in urlname): # Protect against path traversal attacks
+            errorlabel.update("Subdomain cannot contain periods")
+            return
         with open(f"{SCRDIR}/../user/creds/{urlname}", "w+") as file:
             file.write(tokeninput)
         self.exit(urlname)
+
+class LoginError(App):
+    """
+    Tell the user they're
+    annoying and I don't
+    want to put up with
+    their bad tokens
+    (bad login error)
+    """
+    CSS_PATH = f"{SCRDIR}/../assets/style.css"
+
+    def compose(self):
+        yield Header()
+        yield Container(
+            Label("Invalid login!"),
+            Button.error("sorry :3"),
+            id="error"
+        )
+    def on_button_pressed(self, event: Button.Pressed):
+        self.exit()
 
 if __name__ == "__main__":
     app = LoginChooser()
