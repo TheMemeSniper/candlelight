@@ -2,6 +2,12 @@
 ## A TUI frontend to Canvas because the website sucks
 # API module
 
+"""
+A very small QoL wrapper for the canvasapi module.
+Mostly to convert PaginatedList my behated to List
+my beloved.
+"""
+
 from canvasapi import Canvas
 
 def validatetoken(subdomain, token):

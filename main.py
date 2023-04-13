@@ -2,6 +2,12 @@
 ## A TUI frontend to Canvas because the website sucks
 # Main Module
 
+"""
+The main module.
+It coordinates all the other modules to make candlelight not a library.
+What? Were you expecting something else?
+"""
+
 VERSION = "0.0.1"
 BRANCH = "dev"
 

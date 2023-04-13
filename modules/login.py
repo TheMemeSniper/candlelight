@@ -2,6 +2,15 @@
 ## A TUI frontend to Canvas because the website sucks
 # Login UI module
 
+"""
+This module handles Canvas API authentication. It requests
+the user to input their domain and token, and performs
+response validation on it. If it is invalid, it will tell
+the user that what they have input is invalid. When the
+user inputs a valid domain and token, it will return the
+domain name input, which will be used by main to find the
+token file and log in.
+"""
 import textual
 from textual.app import App, ComposeResult
 from textual.containers import Container
