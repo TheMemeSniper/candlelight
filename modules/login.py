@@ -16,6 +16,7 @@ from textual.app import App, ComposeResult
 from textual.containers import Container
 from textual.widgets import *
 import os
+import logger
 SCRDIR = os.path.abspath(os.path.dirname(__file__))
 
 class LabelItem(ListItem): # For some inconcievable reason, Textual
@@ -43,7 +44,7 @@ class LoginChooser(App):
     Prompt user to pick a login from 
     /user/creds/
     """
-    CSS_PATH = f"{SCRDIR}/../assets/style.css"
+    CSS_PATH = theming.findtheme()
 
     def compose(self) -> ComposeResult:
         yield Header()
@@ -99,7 +100,7 @@ class LoginError(App):
     their bad tokens
     (bad login error)
     """
-    CSS_PATH = f"{SCRDIR}/../assets/style.css"
+    CSS_PATH = theming.findtheme()
 
     def compose(self):
         yield Header()

@@ -1,0 +1,33 @@
+/*
+Candlelight
+A TUI frontend to Canvas because the website sucks
+Catppuccin Latte Stylesheet
+
+
+This is the default stylesheet for Candlelight.
+Want to use another one? Look at /assets/stylesheets
+and see if one of those fits you. If not, make your own!
+*/
+
+
+*
+{
+    background: #232634;
+}
+
+#error,
+#error2{
+    color:#e78284;
+    align: center middle;
+    text-align: center;
+}
+
+#title,
+#title2 {
+    color: #c6d0f5;
+    text-style: bold;
+}
+
+#loginlist {
+    padding-bottom: 10;
+}

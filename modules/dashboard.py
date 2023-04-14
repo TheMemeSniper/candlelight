@@ -9,6 +9,7 @@ in a tabbed list view, with a dedicated tab for missing
 work and unread Canvas messages.
 """
 import textual
+import theming
 from textual.app import App, ComposeResult
 import os
 SCRDIR = os.path.abspath(os.path.dirname(__file__))
@@ -17,7 +18,7 @@ def Dashboard(App):
     """
     Main UI
     """
-    CSS_PATH = f"{SCRDIR}/style.css"
+    CSS_PATH = theming.findtheme()
     yield Header()
     
     
